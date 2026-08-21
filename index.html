@@ -96,6 +96,9 @@
   .card.pablo .t{ color:var(--pablo); }
   .card.manuel{ background:#0e8a770f; border-color:#0e8a7730; }
   .card.manuel .t{ color:var(--manuel); }
+  .card.free{ background:repeating-linear-gradient(135deg,#fbfcfe,#fbfcfe 8px,#f4f6fa 8px,#f4f6fa 16px); border:1px dashed #c3cbdb; }
+  .card.free .t{ color:#7c8598; font-weight:600; }
+  .card.free .tip{ font-size:10px; color:#8b93a5; margin-top:3px; line-height:1.4; }
   .card.plain{ background:#f7f9fd; border-color:var(--border); }
   .card.plain .t{ color:var(--text-dim); font-weight:500; }
 
@@ -136,11 +139,19 @@
   .m-desc{ font-size:13.5px; color:var(--text); }
   .m-desc ol{ margin:8px 0 0; padding-left:20px; }
   .m-desc ol li{ margin-bottom:4px; }
+  .m-desc .tbdbox{
+    background:var(--tbd-soft); border:1px solid #c0392b33; border-left:3px solid var(--tbd);
+    border-radius:8px; padding:10px 12px; font-size:12.5px; color:#8c2f24; margin-top:4px;
+  }
+  .m-desc .tipbox{
+    background:#f2f6ff; border:1px solid #d3e0f7; border-left:3px solid var(--asia);
+    border-radius:8px; padding:10px 12px; font-size:12.5px; color:#33405c; margin-top:4px;
+  }
   .host-list{ display:flex; flex-direction:column; gap:5px; }
   .host{ font-size:13px; }
   .host .aff{ font-size:10.5px; font-weight:700; letter-spacing:.03em; color:#fff; background:#7b869c; border-radius:4px; padding:1px 5px; margin-left:6px; }
   .host .aff.tlab{ background:#3f5f9e; }
-  .host .aff.iis{ background:#8a5a2b; }
+  .host .aff.iis{ background:#5f83bd; }
   .host .aff.eth{ background:#5b3f8e; }
   .host.tbd{ color:var(--tbd); font-weight:700; }
 
@@ -188,6 +199,7 @@
     <span class="li"><span class="dot" style="background:var(--pablo)"></span>Pablo only</span>
     <span class="li"><span class="dot" style="background:var(--manuel)"></span>Manuel only</span>
     <span class="li"><span class="tbd-pill">TBD</span> host not assigned yet</span>
+    <span class="li"><span style="display:inline-block;width:14px;height:9px;border:1px dashed #c3cbdb;border-radius:2px;background:repeating-linear-gradient(135deg,#fbfcfe,#fbfcfe 4px,#f4f6fa 4px,#f4f6fa 8px);"></span> No event / free time</span>
   </div>
   <p class="hint">👆 Click a session card to open its details.</p>
 
@@ -202,9 +214,10 @@
 
   <footer>
     Draft schedule — Takeuchi Lab × ETH Zürich Soft Robotics Lab exchange, Sept 7–11, 2026.
-    Affiliation tags: <span class="aff tlab" style="font-size:10px;font-weight:700;color:#fff;background:#3f5f9e;border-radius:4px;padding:1px 5px;">TLab</span> Takeuchi Lab ·
-    <span class="aff iis" style="font-size:10px;font-weight:700;color:#fff;background:#8a5a2b;border-radius:4px;padding:1px 5px;">IIS</span> Institute of Industrial Science ·
-    <span class="aff eth" style="font-size:10px;font-weight:700;color:#fff;background:#5b3f8e;border-radius:4px;padding:1px 5px;">ETH</span> ETH Zürich.
+    Site tags — Takeuchi Lab operates at two campuses:
+    <span style="font-size:10px;font-weight:700;color:#fff;background:#3f5f9e;border-radius:4px;padding:1px 5px;">Hongo</span> Hongo campus ·
+    <span style="font-size:10px;font-weight:700;color:#fff;background:#5f83bd;border-radius:4px;padding:1px 5px;">IIS</span> Institute of Industrial Science, Komaba ·
+    <span style="font-size:10px;font-weight:700;color:#fff;background:#5b3f8e;border-radius:4px;padding:1px 5px;">ETH</span> ETH Zürich (visiting).
     Content is maintained in the companion spreadsheet (ETH_visit_schedule_content.xlsx).
   </footer>
 </div>
@@ -219,7 +232,7 @@
       <div class="m-row" id="mPills"></div>
       <div class="m-sec">What happens</div>
       <div class="m-desc" id="mDesc"></div>
-      <div class="m-sec">Assigned</div>
+      <div class="m-sec" id="mHostsSec">Assigned</div>
       <div class="host-list" id="mHosts"></div>
     </div>
   </div>
@@ -247,7 +260,7 @@ const S = [
  { day:"Mon 9/7", block:"Afternoon", track:"group", title:"Muscle-Ring Actuator Workshop",
    desc:["Hands-on demonstration reproducing how the data in Saito's paper figures were acquired.",
          "OL:Construction / fabrication technique|Mounting the ring onto the device|Electrical stimulation|Force measurement|Quadruped robot demonstration (optional — skip if time is short)|Observing immunostained samples under the THUNDER imager"],
-   hosts:[{n:"Shotaro Saito",a:"tlab"},{n:"Akiyama",a:"tlab"}] },
+   hosts:[{n:"Shotaroh Saito",a:"tlab"},{n:"Chihiro Akiyama",a:"tlab"}] },
 
  { day:"Tue 9/8", block:"Morning", track:"group", title:"Sensor-Cell & Microfluidics Workshop",
    desc:["Hands-on workshop covering sensor-cell culture and microfluidic device work."],
@@ -256,7 +269,7 @@ const S = [
  { day:"Tue 9/8", block:"Afternoon", track:"group", title:"Skin Biology Workshop", time:"13:00–15:00",
    desc:["Lecture and demonstrations on engineered skin tissue.",
          "OL:Lecture|Demonstration of the Kawai device|Demonstration of collagen-based fabrication|Observing H&E-stained images under the THUNDER imager"],
-   hosts:[{n:"Dr. Minghao Nie",a:"tlab"},{n:"Dr. Tingyu Li",a:"tlab"},{n:"Akifumi Kobayashi",a:"tlab"}] },
+   hosts:[{n:"Dr. Minghao Nie",a:"tlab"},{n:"Dr. Tingyu Li",a:"tlab"},{n:"Atsufumi Kobayashi",a:"tlab"}] },
  { day:"Tue 9/8", block:"Afternoon", track:"group", title:"★ ETH Guest Lecture Series", time:"15:00–16:30",
    desc:["All three guests each give a ~20 min seminar-style talk on their own research, attended by Prof. Takeuchi and the full lab.",
          "This session is intended to surface what the individual-matching days that follow should focus on."],
@@ -266,20 +279,23 @@ const S = [
    desc:["Welcome dinner for the three ETH guests together with the Takeuchi Lab members.","Venue and attendee list to be confirmed."],
    hosts:[{n:"TBD"}] },
 
- { day:"Wed 9/9", block:"Morning", track:"group", title:"IIS Visit — NM Junction",
-   desc:["Full-day visit to the Institute of Industrial Science (IIS), The University of Tokyo.",
-         "Guests observe neuromuscular (NM) junction experiments — co-culture of motor neurons with muscle tissue — alongside other ongoing work at IIS."],
-   hosts:[{n:"Kento Terada",a:"tlab"},{n:"Dr. Midori Negishi",a:"iis"},{n:"Dr. Jun Sawayama",a:"iis"},{n:"Yuta Tani",a:"iis"}] },
- { day:"Wed 9/9", block:"Lunch", track:"plain", title:"Lunch (at / near IIS)", desc:["Informal, roughly one hour. Venue to be decided."], hosts:[{n:"TBD"}] },
- { day:"Wed 9/9", block:"Afternoon", track:"group", title:"IIS Visit (continued)",
-   desc:["The IIS visit continues through the afternoon."],
+ { day:"Wed 9/9", block:"Morning", track:"free", title:"No Event — Free Morning", tip:"Suggested: Shibuya / Shimokitazawa",
+   desc:["No scheduled programme. The afternoon visit starts at 14:00 at IIS in Komaba.",
+         "TIP:Suggestion: IIS (Komaba-Todaimae station) sits on the Keio Inokashira line between <b>Shibuya</b> and <b>Shimokitazawa</b>, so both are only a few minutes away. Either is a good place to spend the morning and have a meal before heading to Komaba."],
+   hosts:[] },
+ { day:"Wed 9/9", block:"Lunch", track:"free", title:"Lunch on your own", tip:"Suggested: Shibuya / Shimokitazawa",
+   desc:["No arranged lunch — please eat before arriving at IIS.","TIP:Shibuya or Shimokitazawa are both convenient, and both are a short ride from Komaba-Todaimae station."],
+   hosts:[] },
+ { day:"Wed 9/9", block:"Afternoon", track:"group", title:"IIS Visit", time:"14:00–18:00",
+   desc:["Visit to the Institute of Industrial Science (IIS), The University of Tokyo, Komaba campus. Programme starts at 14:00.",
+         "TBD:Programme content to be confirmed."],
    hosts:[{n:"Kento Terada",a:"tlab"},{n:"Dr. Midori Negishi",a:"iis"},{n:"Dr. Jun Sawayama",a:"iis"},{n:"Yuta Tani",a:"iis"}] },
 
  { day:"Thu 9/10", block:"Morning", track:"asia", title:"Neuromuscular Matching",
    desc:["1:1 / small-group discussion on human neuromuscular models and training protocols."], hosts:[{n:"Kento Terada",a:"tlab"}] },
  { day:"Thu 9/10", block:"Morning", track:"pablo", title:"Muscle-Actuator Matching",
    desc:["1:1 / small-group discussion on bioactuator fabrication, maturation and training."],
-   hosts:[{n:"Yoshino",a:"tlab"},{n:"Akiyama",a:"tlab"},{n:"Shotaro Saito (may join)",a:"tlab"},{n:"Egashira (may join)",a:"tlab"}] },
+   hosts:[{n:"Kohei Yoshino",a:"tlab"},{n:"Chihiro Akiyama",a:"tlab"},{n:"Shotaroh Saito (may join)",a:"tlab"},{n:"Yuka Egashira (may join)",a:"tlab"}] },
  { day:"Thu 9/10", block:"Morning", track:"manuel", title:"Simulation Matching",
    desc:["1:1 / small-group discussion on in silico methods and simulation-driven design."], hosts:[{n:"Kenta Maehara",a:"tlab"}] },
  { day:"Thu 9/10", block:"Lunch", track:"plain", title:"Lunch (~1h)", desc:["Informal, roughly one hour."], hosts:[{n:"TBD"}] },
@@ -287,7 +303,7 @@ const S = [
    desc:["Discussion continued from the morning."], hosts:[{n:"Kento Terada",a:"tlab"}] },
  { day:"Thu 9/10", block:"Afternoon", track:"pablo", title:"Muscle-Actuator Matching",
    desc:["Discussion continued from the morning."],
-   hosts:[{n:"Yoshino",a:"tlab"},{n:"Akiyama",a:"tlab"},{n:"Oba (may join)",a:"tlab"},{n:"Shotaro Saito (may join)",a:"tlab"},{n:"Egashira (may join)",a:"tlab"}] },
+   hosts:[{n:"Kohei Yoshino",a:"tlab"},{n:"Chihiro Akiyama",a:"tlab"},{n:"Shota Oba (may join)",a:"tlab"},{n:"Shotaroh Saito (may join)",a:"tlab"},{n:"Yuka Egashira (may join)",a:"tlab"}] },
  { day:"Thu 9/10", block:"Afternoon", track:"manuel", title:"Simulation Matching",
    desc:["Discussion continued from the morning."], hosts:[{n:"Kenta Maehara",a:"tlab"}] },
 
@@ -295,7 +311,7 @@ const S = [
    desc:["Final discussion and joint experiment planning for the Phase 2 collaboration stay."], hosts:[{n:"Kento Terada",a:"tlab"}] },
  { day:"Fri 9/11", block:"Morning", track:"pablo", title:"Muscle-Actuator Matching",
    desc:["Final discussion and joint experiment planning. The full muscle-actuator team is available."],
-   hosts:[{n:"Oba",a:"tlab"},{n:"Egashira",a:"tlab"},{n:"Akiyama",a:"tlab"},{n:"Shotaro Saito",a:"tlab"}] },
+   hosts:[{n:"Shota Oba",a:"tlab"},{n:"Yuka Egashira",a:"tlab"},{n:"Chihiro Akiyama",a:"tlab"},{n:"Shotaroh Saito",a:"tlab"}] },
  { day:"Fri 9/11", block:"Morning", track:"manuel", title:"Simulation Matching",
    desc:["Final discussion and joint experiment planning."], hosts:[{n:"Kenta Maehara",a:"tlab"}] },
  { day:"Fri 9/11", block:"Lunch", track:"plain", title:"Lunch (~1h)", desc:["Informal, roughly one hour."], hosts:[{n:"TBD"}] },
@@ -314,7 +330,7 @@ function stripeHTML(track){
 }
 function hostSummary(hosts){
   if(!hosts || !hosts.length || (hosts.length===1 && hosts[0].n==="TBD")) return `<span class="tbd-pill">TBD</span>`;
-  return hosts.map(h => `<div class="wl">${h.a ? `${h.n.split(" (")[0].split(" —")[0]} <span class="wa">(${h.a==="tlab"?"TLab":h.a==="iis"?"IIS":"ETH"})</span>` : h.n}</div>`).join("");
+  return hosts.map(h => `<div class="wl">${h.a ? `${h.n.split(" (")[0].split(" —")[0]} <span class="wa">(${h.a==="tlab"?"Hongo":h.a==="iis"?"IIS":"ETH"})</span>` : h.n}</div>`).join("");
 }
 
 const body = document.getElementById("gridBody");
@@ -332,7 +348,8 @@ BLOCKS.forEach(([block,range]) => {
         `<div class="stripe">${stripeHTML(s.track)}</div>` +
         (s.time?`<div class="time">${s.time}</div>`:``) +
         `<div class="t">${s.track==="group"?`<span class="all3">ALL 3</span>`:``}${s.track!=="group"&&TRACKNAME[s.track]?`<span style="opacity:.65;font-size:10px;font-weight:800;letter-spacing:.05em;">${TRACKNAME[s.track].toUpperCase()} · </span>`:``}${s.title}</div>` +
-        (s.track==="plain"?``:`<div class="who">${hostSummary(s.hosts)}</div>`);
+        (s.track==="free" ? `<div class="tip">${s.tip||"Free — no arranged programme"}</div>`
+          : s.track==="plain" ? `` : `<div class="who">${hostSummary(s.hosts)}</div>`);
       div.addEventListener("click", () => openModal(i));
       td.appendChild(div);
     });
@@ -357,6 +374,8 @@ function openModal(i){
     const p=document.createElement("span"); p.className="pill"; p.textContent="All three guests attend together"; pills.appendChild(p);
   } else if(TRACKNAME[s.track]){
     const p=document.createElement("span"); p.className="pill "+s.track; p.textContent=TRACKNAME[s.track]+" only"; pills.appendChild(p);
+  } else if(s.track==="free"){
+    const p=document.createElement("span"); p.className="pill"; p.textContent="No event — free time"; pills.appendChild(p);
   } else {
     const p=document.createElement("span"); p.className="pill"; p.textContent="Open / informal"; pills.appendChild(p);
   }
@@ -364,13 +383,21 @@ function openModal(i){
   const d = document.getElementById("mDesc");
   d.innerHTML = s.desc.map(p => {
     if(p.startsWith("OL:")) return "<ol>" + p.slice(3).split("|").map(x=>`<li>${x}</li>`).join("") + "</ol>";
+    if(p.startsWith("TIP:")) return `<div class="tipbox">💡 ${p.slice(4)}</div>`;
+    if(p.startsWith("TBD:")) return `<div class="tbdbox"><b>TBD</b> — ${p.slice(4)}</div>`;
     return `<p style="margin:0 0 8px;">${p}</p>`;
   }).join("");
 
   const h = document.getElementById("mHosts");
-  h.innerHTML = (!s.hosts||!s.hosts.length||(s.hosts.length===1&&s.hosts[0].n==="TBD"))
-    ? `<div class="host tbd">TBD — not assigned yet</div>`
-    : s.hosts.map(x => `<div class="host">${x.n}${x.a?`<span class="aff ${x.a}">${x.a==="tlab"?"TLab":x.a==="iis"?"IIS":"ETH"}</span>`:``}</div>`).join("");
+  const hSec = document.getElementById("mHostsSec");
+  if(s.track==="free"){
+    hSec.style.display="none"; h.style.display="none";
+  } else {
+    hSec.style.display=""; h.style.display="";
+    h.innerHTML = (!s.hosts||!s.hosts.length||(s.hosts.length===1&&s.hosts[0].n==="TBD"))
+      ? `<div class="host tbd">TBD — not assigned yet</div>`
+      : s.hosts.map(x => `<div class="host">${x.n}${x.a?`<span class="aff ${x.a}">${x.a==="tlab"?"Hongo":x.a==="iis"?"IIS":"ETH"}</span>`:``}</div>`).join("");
+  }
 
   overlay.classList.add("open");
 }
